@@ -5,7 +5,7 @@
  */
 
 
-import {GenericDataSource, ModalTable} from '../../node_modules/data-modal/src/index.js'
+import {ModalTable} from '../../node_modules/data-modal/src/index.js'
 import {StringUtils} from "../../node_modules/igv-utils/src/index.js"
 
 import Globals from "../globals.js"
@@ -47,7 +47,7 @@ async function createGenomeWidgets(igvMain, browser, genomes) {
     }
     genarkModalTable = new ModalTable(genarkModalTableConfig)
 
-    const dataSource = new GenericDataSource(genarkDatasourceConfigurator())
+    const dataSource = Utils.createDataSource(genarkDatasourceConfigurator())
     genarkModalTable.setDatasource(dataSource)
 
     // URL modal

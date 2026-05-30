@@ -6,7 +6,7 @@
  */
 
 
-import {GenericDataSource, ModalTable} from '../../node_modules/data-modal/src/index.js'
+import {ModalTable} from '../../node_modules/data-modal/src/index.js'
 import {igvxhr, URIUtils} from '../../node_modules/igv-utils/src/index.js'
 import * as GooglePicker from './googleFilePicker.js'
 import {encodeTrackDatasourceConfigurator, supportsENCODE} from './encodeTrackDatasourceConfigurator.js'
@@ -281,7 +281,7 @@ function prepRegistryConfig(registry) {
     if ('custom-data-modal' === registry.type) {
         // Default custom modal to use igvxhr for string loading.   igvxhr supports Google auth, the default "fetch"
         // implementation does not.   See the data-modal project for more details
-        registry.igvxhr = registry.igvxhr !== false
+        registry.igvxhr = registry.igvxhr || igvxhr
         const customModalTable = new ModalTable({
             type: registry.type,
             id: `igv-custom-modal-${Math.random().toString(36).substring(2, 9)}`,
@@ -289,7 +289,7 @@ function prepRegistryConfig(registry) {
             okHandler: trackLoadHandler,
             // selectionStyle: 'multi',
             pageLength: 100,
-            datasource: new GenericDataSource(registry),
+            datasource: Utils.createDataSource(registry),
             description: registry.description
         })
         customModalTables.push(customModalTable)
@@ -334,9 +334,9 @@ function addEncodeButtons(genomeID, $divider) {
 
     const hasHIC = genomeID.startsWith("hg") || genomeID.startsWith("mm")
 
-    encodeModalTables[0].setDatasource(new GenericDataSource(encodeTrackDatasourceConfigurator(genomeID, 'signals-chip')))
-    encodeModalTables[1].setDatasource(new GenericDataSource(encodeTrackDatasourceConfigurator(genomeID, 'signals-other')))
-    encodeModalTables[2].setDatasource(new GenericDataSource(encodeTrackDatasourceConfigurator(genomeID, 'other')))
+    encodeModalTables[0].setDatasource(Utils.createDataSource(encodeTrackDatasourceConfigurator(genomeID, 'signals-chip')))
+    encodeModalTables[1].setDatasource(Utils.createDataSource(encodeTrackDatasourceConfigurator(genomeID, 'signals-other')))
+    encodeModalTables[2].setDatasource(Utils.createDataSource(encodeTrackDatasourceConfigurator(genomeID, 'other')))
 
     const description = "<a href=https://www.encodeproject.org/ target=_blank>Encylopedia of Genomic Elements</a>"
     encodeModalTables[0].setDescription(description)
@@ -344,7 +344,7 @@ function addEncodeButtons(genomeID, $divider) {
     encodeModalTables[2].setDescription(description)
 
     if (hasHIC) {
-        encodeModalTables[3].setDatasource(new GenericDataSource(encodeTrackDatasourceConfigurator(genomeID, 'hic')))
+        encodeModalTables[3].setDatasource(Utils.createDataSource(encodeTrackDatasourceConfigurator(genomeID, 'hic')))
         encodeModalTables[3].setDescription(description)
         if (hasHIC) {
             createDropdownButton($divider, 'ENCODE HIC', id_prefix)

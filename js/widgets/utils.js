@@ -1,3 +1,20 @@
+import {igvxhr} from '../../node_modules/igv-utils/src/index.js'
+import {GenericDataSource} from '../../node_modules/data-modal/src/index.js'
+
+/**
+ * Factory function for creating a GenericDataSource instance.
+ * Centralises construction so call sites do not import or reference
+ * the GenericDataSource class directly.   Insures that 'igvxhr' is used for string loading.
+ * 'igvxhr' handles Google Auth and gzipped files automatically
+ *
+ * @param {Object} config - Datasource configuration object
+ * @returns {GenericDataSource}
+ */
+function createDataSource(config) {
+    config.igvxhr = igvxhr
+    return new GenericDataSource(config)
+}
+
 function configureModal(fileLoadWidget, modal, okHandler) {
 
     const doDismiss = () => {
@@ -40,4 +57,4 @@ function configureModal(fileLoadWidget, modal, okHandler) {
     })
 }
 
-export {configureModal}
+export {configureModal, createDataSource}

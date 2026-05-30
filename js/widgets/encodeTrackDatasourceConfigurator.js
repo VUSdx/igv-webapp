@@ -29,7 +29,6 @@ function encodeTrackDatasourceConfigurator(genomeId, type) {
     }
 
     return {
-        igvxhr: igvxhr,     // Neccessary to handle gzip files
         isJSON: false,
         url,
         sort: encodeSort,
