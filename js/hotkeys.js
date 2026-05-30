@@ -1,4 +1,3 @@
-
 /**
  * Create a throttled zoom handler that accumulates scale factors
  * @param {Object} browser - The IGV browser instance
@@ -64,9 +63,21 @@ function setupKeyboardZoom(browser) {
     const throttledZoom = createThrottledZoom(browser, 150)
 
     document.addEventListener('keydown', (event) => {
-        // Check if user is typing in an input field
-        const target = event.target
-        if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        const isEditableElement = (element) => (
+            !!element &&
+            (element.isContentEditable ||
+                element.matches?.('input, textarea, select, [contenteditable], [contenteditable="true"], [contenteditable=""]') ||
+                !!element.closest?.('input, textarea, select, [contenteditable], [contenteditable="true"], [contenteditable=""]'))
+        )
+
+        // Use composedPath to handle retargeted events where target may be a wrapping DIV/host.
+        const eventPath = typeof event.composedPath === 'function' ? event.composedPath() : []
+        const isTypingContext = eventPath.some((node) => node instanceof Element && isEditableElement(node))
+
+        const target = event.target instanceof Element ? event.target : null
+        const activeElement = document.activeElement instanceof Element ? document.activeElement : null
+
+        if (isTypingContext || isEditableElement(target) || isEditableElement(activeElement)) {
             return
         }
 
