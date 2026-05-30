@@ -279,6 +279,9 @@ async function trackMenuGenomeChange(browser, genome) {
 function prepRegistryConfig(registry) {
 
     if ('custom-data-modal' === registry.type) {
+        // Default custom modal to use igvxhr for string loading.   igvxhr supports Google auth, the default "fetch"
+        // implementation does not.   See the data-modal project for more details
+        registry.igvxhr = registry.igvxhr !== false
         const customModalTable = new ModalTable({
             type: registry.type,
             id: `igv-custom-modal-${Math.random().toString(36).substring(2, 9)}`,
