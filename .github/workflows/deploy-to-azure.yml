@@ -1,44 +1,44 @@
 name: Build IGV webapp container and deploy
 
 on:
-  push:
-    branches:
-      main
+    push:
+        branches: main
+        workflow_dispatch:
 
 env:
-  IMAGE_NAME: igv-webapp-azure-app-service
+    IMAGE_NAME: igv-webapp-azure-app-service
 
 jobs:
-  build:
-    name: Build container image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      # Angular build
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22.x
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
+    build:
+        name: Build container image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      # Docker image
-      - name: Log into registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          file: docker/Dockerfile
-          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}
+            # Angular build
+            - name: Setup Node.js 22
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
+            - name: Install dependencies
+              run: npm install
+            - name: Build
+              run: npm run build
+
+            # Docker image
+            - name: Log into registry
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ secrets.ACR_ENDPOINT }}
+                  username: ${{ secrets.ACR_USERNAME }}
+                  password: ${{ secrets.ACR_PASSWORD }}
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                  context: .
+                  push: true
+                  file: docker/Dockerfile
+                  tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}
