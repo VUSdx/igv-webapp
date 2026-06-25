@@ -2,8 +2,8 @@ name: Build IGV webapp container and deploy
 
 on:
   push:
-    branches: 
-      master
+    branches:
+      - master
   workflow_dispatch:
 
 env:
@@ -19,11 +19,9 @@ jobs:
 
       # Angular build
       - name: Setup Node.js 22
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 22.x
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
       - name: Install dependencies
         run: npm install
       - name: Build
