@@ -1,29 +1,34 @@
 {
-  "name": "igv-webapp",
-  "version": "2.4.6",
-  "description": "igv web app",
-  "keywords": ["genomics", "visualization", "genome browser"],
-  "author": "Douglass Turner and Jim Robinson",
-  "license": "MIT",
-  "scripts": {
-    "build": "node scripts/updateVersion.js && node scripts/clean.js && rollup -c && node scripts/copyArtifacts.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/igvteam/igv-webapp.git"
-  },
-  "bugs": {
-    "url": "https://github.com/igvteam/igv-webapp/issues"
-  },
-  "homepage": "https://github.com/igvteam/igv-webapp#readme",
-  "devDependencies": {
-    "fs-extra": "^8.1.0",
-    "igv": "^3.8.3",
-    "data-modal": "github:igvteam/data-modal#v1.6.2",
-    "igv-utils": "github:igvteam/igv-utils#v1.7.1",
-    "rollup": "^2.28.1",
-    "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-strip": "^1.2.2",
-    "rollup-plugin-terser": "^7.0.2"
-  }
+    "name": "igv-webapp",
+    "version": "2.4.6",
+    "description": "igv web app",
+    "keywords": [
+        "genomics",
+        "visualization",
+        "genome browser"
+    ],
+    "author": "Douglass Turner and Jim Robinson",
+    "license": "MIT",
+    "scripts": {
+        "build": "node scripts/updateVersion.js && node scripts/clean.js && rollup -c && node scripts/copyArtifacts.js",
+        "serve": "npx http-server -a localhost -p 8080"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/igvteam/igv-webapp.git"
+    },
+    "bugs": {
+        "url": "https://github.com/igvteam/igv-webapp/issues"
+    },
+    "homepage": "https://github.com/igvteam/igv-webapp#readme",
+    "devDependencies": {
+        "fs-extra": "^8.1.0",
+        "igv": "^3.8.3",
+        "data-modal": "github:igvteam/data-modal#v1.6.2",
+        "igv-utils": "github:igvteam/igv-utils#v1.7.1",
+        "rollup": "^2.28.1",
+        "rollup-plugin-copy": "^3.3.0",
+        "rollup-plugin-strip": "^1.2.2",
+        "rollup-plugin-terser": "^7.0.2"
+    }
 }
