@@ -31,8 +31,8 @@ jobs:
       - name: Log into registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
+          registry: ${{ vars.ACR_ENDPOINT }}
+          username: ${{ vars.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - name: Build and push
         uses: docker/build-push-action@v5
