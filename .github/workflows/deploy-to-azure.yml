@@ -40,4 +40,4 @@ jobs:
           context: .
           push: true
           file: docker/Dockerfile
-          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}
+          tags: ${{ vars.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}
