@@ -62,11 +62,20 @@ async function createGenomeWidgets(igvMain, browser, genomes) {
         dataOnly: false
     })
 
+    // Reveal the Azure Storage menu item only when configured (parallels Dropbox/Google).
+    let azureButton
+    if (igvwebConfig.azure) {
+        const azureContainer = document.getElementById('igv-app-dropdown-azure-genome-file-button-container')
+        if (azureContainer) azureContainer.style.display = ''
+        azureButton = document.getElementById('igv-app-dropdown-azure-genome-file-button')
+    }
+
     const genomeFileLoad = new GenomeFileLoad(
         {
             localFileInput: document.getElementById('igv-app-dropdown-local-genome-file-input'),
             dropboxButton: document.getElementById('igv-app-dropdown-dropbox-genome-file-button'),
             googleDriveButton: document.getElementById('igv-app-dropdown-google-drive-genome-file-button'),
+            azureButton,
             loadHandler: async configuration => {
                 if (configuration.id !== browser.genome.id) {
                     await loadGenome(configuration)

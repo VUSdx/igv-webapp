@@ -1,15 +1,17 @@
 import alertSingleton from './alertSingleton.js'
 import * as GooglePicker from './googleFilePicker.js'
 import {initializeDropbox} from "./dropbox.js"
+import * as AzureBrowser from "./azureBrowserModal.js"
+import {getSasUrl} from "./azureClient.js"
 
 /**
- * FileLoad is a base class that handles loading files from local file input, Dropbox, and Google Drive.  Used
- * by SessionFileLoad and GenomeFileLoad.
+ * FileLoad is a base class that handles loading files from local file input, Dropbox, Google Drive,
+ * and Azure Blob Storage.  Used by SessionFileLoad and GenomeFileLoad.
  */
 
 class FileLoad {
 
-    constructor({localFileInput, dropboxButton, googleDriveButton}) {
+    constructor({localFileInput, dropboxButton, googleDriveButton, azureButton}) {
 
         localFileInput.addEventListener('change', async () => {
 
@@ -69,6 +71,24 @@ class FileLoad {
                 })
             })
 
+        }
+
+        if (azureButton) {
+            azureButton.addEventListener('click', async () => {
+                try {
+                    const selected = await AzureBrowser.open({multiSelect: true})
+                    if (!selected || selected.length === 0) return
+
+                    // Turn each selected blob into a short-lived SAS URL igv can range-read.
+                    const descriptors = await Promise.all(
+                        selected.map(async ({path, name}) => ({path: await getSasUrl(path), name}))
+                    )
+                    await this.loadFiles(descriptors)
+                } catch (e) {
+                    console.error(e)
+                    alertSingleton.present(e.message || String(e))
+                }
+            })
         }
     }
 

@@ -1,10 +1,9 @@
 var igvwebConfig = {
-
     // URL to genomes json file
-    genomes: "https://igv.org/genomes/genomes3.json",
+    genomes: 'https://igv.org/genomes/genomes3.json',
 
     // URL to a track registry file
-    trackRegistryFile: "resources/tracks/trackRegistry.json",
+    trackRegistryFile: 'resources/tracks/trackRegistry.json',
 
     // Supply a drobpox api key to enable the Dropbox file picker in the load menus.  This is optional
     // dropboxAPIKey: 'your dropbox API key',
@@ -17,6 +16,17 @@ var igvwebConfig = {
     //  apiKey: "your Google api key",
     //  appId: "your Google app ID",    // The Google project number
 
+    // Enable the "Azure Storage ..." file picker in the load menus.  This is optional; the menu
+    // item only appears when this block is present.  Sign-in uses Microsoft Entra ID (MSAL) and
+    // the user's own identity (no secrets are stored here, no backend is involved).  See
+    // js/widgets/azureClient.js.
+    azure: {
+        clientId: 'd10f3c7a-d5fa-4257-947f-11e49c72d6ec',
+        tenantId: '989bd25c-37af-4179-bf32-dedffac35231',
+        storageAccount: 'stpipelineprodne', // storage account name (no .blob.core.windows.net)
+        container: 'pipeline-data', // blob container to browse
+    },
+
     // Provide a URL shorterner function or object.   This is optional.  If not supplied
     // sharable URLs will not be shortened.  If using tinyURL supply an api token
     // urlShortener: {
@@ -28,18 +38,15 @@ var igvwebConfig = {
 
     restoreLastGenome: true,
 
-    igvConfig:
-        {
-            genome: "hg38",
-            locus: "all",
-            loadDefaultGenomes: false,
-            queryParametersSupported: true,
-            showChromosomeWidget: true,
-            showSVGButton: false,
-            tracks: [],
-            // Uncomment to enable websocket support.  This is required for the mcp server https://github.com/igvteam/igvweb-mcp
-            // enableWebSocket: true,
-
-        }
-
+    igvConfig: {
+        genome: 'hg38',
+        locus: 'all',
+        loadDefaultGenomes: false,
+        queryParametersSupported: true,
+        showChromosomeWidget: true,
+        showSVGButton: false,
+        tracks: [],
+        // Uncomment to enable websocket support.  This is required for the mcp server https://github.com/igvteam/igvweb-mcp
+        // enableWebSocket: true,
+    },
 }

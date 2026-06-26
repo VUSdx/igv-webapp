@@ -18,8 +18,8 @@ class GenomeFileLoad extends FileLoad {
      * @param googleDriveButton
      * @param loadHandler
      */
-    constructor({localFileInput, dropboxButton, googleDriveButton, loadHandler}) {
-        super({localFileInput, dropboxButton, googleDriveButton})
+    constructor({localFileInput, dropboxButton, googleDriveButton, azureButton, loadHandler}) {
+        super({localFileInput, dropboxButton, googleDriveButton, azureButton})
         this.loadHandler = loadHandler
     }
 
